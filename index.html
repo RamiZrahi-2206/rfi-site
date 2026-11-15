@@ -107,6 +107,13 @@
 
   /* feature tiles: one panel height for the group */
   #features .panel { --p-h: 300px; }
+  /* the feature panels stand on a structural plan sheet (axes 1-4 and A-C, columns and beams on drafting paper),
+     the world of the product's own markup screen; each panel shows another part of the sheet */
+  #features .panel[data-ground-plan] { background: #f4f1ea url("img/plan-sheet.svg") no-repeat; background-size: 960px 640px; background-position: var(--plan-pos, 0 0); box-shadow: inset 0 0 0 1px rgb(30 58 95 / .1); }
+  #features article:nth-of-type(1) .panel { --plan-pos: 0 0; }
+  #features article:nth-of-type(2) .panel { --plan-pos: 100% 0; }
+  #features .wrap > .grid article:nth-of-type(1) .panel { --plan-pos: 0 100%; }
+  #features .wrap > .grid article:nth-of-type(2) .panel { --plan-pos: 100% 100%; }
   #features .panel .shot { position: absolute; inset: 24px 24px auto 24px; width: calc(100% - 48px); border-radius: var(--r-md); box-shadow: 0 0 0 1px rgb(0 0 0 / .08); }
   @media (max-width: 639px) { #features .panel { --p-h: 184px; } #features .stage { --fade-h: 40px; } }
 
@@ -152,7 +159,7 @@
      deal: hero centred, nav nav-centre, close close-type, footer footer-columns, rhythm surface-pairs, buttons pill,
      mark ring, ground sky; palette white-link-blue (the product's own screens use a blue header on white, so the
      page carries the same blue); type gabarito (Rubik added for the Hebrew letters); effect grain-gradient in the
-     hero window; card ground painterly-landscape (one seed per panel)
+     hero window; feature panels on img/plan-sheet.svg (a structural plan sheet, replaced the painterly-landscape card ground after the Impeccable critique)
      moments: line-carries-colour on #orgs (the one section on the surface ground) -->
 
 <header class="nav nav--centre">
@@ -307,7 +314,7 @@
           <article class="card card--row card--open span-6">
             <h3>בודקת שהבקשה שלמה</h3>
             <p>מסך הסיכום מראה מה חסר: תמונה, תיאור לכל תמונה, הסבר למה העבודה נעצרה. בלי פריטי החובה הבקשה לא יוצאת.</p>
-            <div class="panel" data-fx="painterly-landscape" data-fx-seed="21" data-fx-params='{"drift":0}' data-ui-pause-host>
+            <div class="panel" data-ground-plan data-ui-pause-host>
               <div class="stage stage--fade-b"><div class="at-rise fit" style="--fit-max:400px;--ax:max(24px, 50% - 200px);--ay:calc(100% - 180px);--ay-sm:calc(100% - 180px)" data-ui-loop>
                 <div class="ui ui-panel ui-checks" data-ui="checklist">
                   <div class="ui-checks__head"><div class="ui-title">בדיקת שלמות לפני שליחה</div><span class="ui-spacer"></span><div class="ui-meta" data-checks-count>2 מתוך 5</div></div>
@@ -326,7 +333,7 @@
           <article class="card card--row card--open span-6">
             <h3>מסמנת על תמונות ותוכניות</h3>
             <p>חץ, עיגול, אזור והערה על תמונה או על קובץ PDF. הסימונים נשמרים בשכבה נפרדת, והקובץ המקורי לא משתנה.</p>
-            <div class="panel" data-fx="painterly-landscape" data-fx-seed="22" data-fx-params='{"drift":0}'>
+            <div class="panel" data-ground-plan>
               <img class="shot" src="assets/product-screens/markup-mobile-600.jpg" width="600" height="1298" alt="סימון על קטע מתוכנית: עיגול אדום סביב התנגשות של תעלת מיזוג בקורה, וחץ עם ההערה התנגשות 12 ס״מ" loading="lazy" data-source="client" data-subject="the product's markup screen">
             </div>
           </article>
@@ -336,15 +343,15 @@
         <article class="card card--row card--open span-6">
           <h3>מעבירה את הבקשה לאישור</h3>
           <p>המנהל מאשר או מחזיר לתיקון, והפיקוח בודק לפני היועץ. שעון היועץ מתחיל רק כשהבקשה מגיעה אליו.</p>
-          <div class="panel" data-fx="painterly-landscape" data-fx-seed="23" data-fx-params='{"drift":0}'>
+          <div class="panel" data-ground-plan>
             <div class="dg" data-diagram><script type="application/json">{"layout": "timeline", "alt": "בקשה נפתחת בשטח, מאושרת בידי המנהל ובידי הפיקוח, נשלחת ליועץ ונענית.", "steps": [{"label": "נפתחה", "sub": "09:10", "icon": "ui:file-text"}, {"label": "אישור מנהל", "sub": "11:40", "icon": "ui:user"}, {"label": "אישור פיקוח", "sub": "14:20", "icon": "ui:check"}, {"label": "אצל היועץ", "sub": "14:21", "icon": "ui:send"}, {"label": "נענתה", "sub": "16:05", "icon": "ui:message-square"}]}</script></div>
           </div>
         </article>
         <article class="card card--row card--open span-6">
           <h3>שולחת תזכורות במייל ובוואטסאפ</h3>
           <p>כל מי שקשור לבקשה מקבל הודעה. לפני מועד היעד ואחריו נשלחת תזכורת למי שהבקשה נמצאת אצלו.</p>
-          <div class="panel" data-fx="painterly-landscape" data-fx-seed="24" data-fx-params='{"drift":0}'>
-            <div class="stage stage--fade-b"><div class="at-rise fit" style="--fit-max:400px;--ax:max(24px, 50% - 200px);--ay:calc(100% - 180px);--ay-sm:calc(100% - 180px)">
+          <div class="panel" data-ground-plan>
+            <div class="stage stage--fade-b"><div class="at-rise fit" style="--fit-max:400px;--ax:max(24px, 50% - 200px);--ay:calc(50% - 110px);--ay-sm:calc(100% - 180px)">
               <div class="ui ui-notify" data-ui="notify">
                 <ul class="ui-notify__list" data-notify-list>
                   <li class="ui-note"><span class="ui-note__ico"><img data-icon="whatsapp" src="assets/icons/whatsapp.svg" alt="" width="16" height="16" loading="lazy"></span><span class="ui-note__text"><span class="ui-note__title">מועד היעד מחר, 16:00<time>עכשיו</time></span><span class="ui-note__body">PRK-0001 עדיין ממתינה לתשובה שלכם</span></span><span class="ui-btn ui-btn--sm ui-note__btn">פתיחה</span></li>
