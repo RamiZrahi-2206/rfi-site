@@ -1,0 +1,448 @@
+<!doctype html>
+<html lang="he" dir="rtl" data-type="software" data-radius="soft" data-ground="sky" data-buttons="pill" data-motion>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>מערכת RFI: ניהול בקשות מידע הנדסיות לפרויקטי בנייה</title>
+<meta name="description" content="עובדי השטח פותחים בקשה מהטלפון, המנהל והפיקוח מאשרים, היועץ עונה בתוך הבקשה ומועד היעד נספר בימי עבודה.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="מערכת RFI: ניהול בקשות מידע הנדסיות לפרויקטי בנייה">
+<meta property="og:description" content="בקשות RFI מהשטח ועד תשובת היועץ, עם אישורים, תזכורות והיסטוריה מלאה.">
+<meta property="og:image" content="share.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#ffffff">
+<!-- <link rel="canonical" href="https://[the client's domain]/"> : the domain is not chosen yet -->
+<meta name="site-kind" content="software">
+<meta name="page-type" content="software">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gabarito:wght@400..700&family=DM+Mono:wght@400;500&family=Rubik:wght@400..600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/system.css">
+<link rel="stylesheet" href="assets/ui/cards.css">
+<link rel="stylesheet" href="assets/motion/motion.css">
+<link rel="stylesheet" href="assets/backgrounds/backgrounds.css">
+<link rel="stylesheet" href="assets/layout/layout.css">
+<link rel="stylesheet" href="assets/icons/icon.css">
+<style>
+:root {
+  --p-bg: #ffffff; --p-surface: #f4f4f4; --p-ink: #111111; --p-muted: #6b6b6b;
+  --p-accent: #1a4be0; --p-accent-ink: #ffffff; --p-action: #1a4be0; --p-action-ink: #ffffff;
+  --p-inv-bg: #111111; --p-inv-surface: #1e1e1e; --p-inv-ink: #ffffff; --p-inv-muted: #9a9a9a;
+  --p-inv-accent: #ffffff; --p-inv-accent-ink: #111111; --p-inv-action: #ffffff; --p-inv-action-ink: #111111;
+  --font-display: "Gabarito", system-ui, sans-serif;
+  --font-text: "Figtree", system-ui, sans-serif;
+  --font-mono: "DM Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --display-weight: 400;
+  --display-tracking: -0.03em;
+  --display-tracking-xl: -0.04em;
+  --ly-scale: 0.98;
+}
+/* Hebrew: the dealt faces carry no Hebrew letters. Rubik draws the Hebrew in headlines and sets all body text; Gabarito keeps the Latin letters and digits in headlines */
+:root {
+  --font-display: "Gabarito", "Rubik", system-ui, sans-serif;
+  --font-text: "Rubik", system-ui, sans-serif;
+  --display-tracking: -0.01em;
+  --display-tracking-xl: -0.015em;
+}
+</style>
+<link rel="stylesheet" href="assets/ui/base.css">
+<link rel="stylesheet" href="assets/ui/chat/fragment.css">
+<link rel="stylesheet" href="assets/ui/window/fragment.css">
+<link rel="stylesheet" href="assets/ui/doc/fragment.css">
+<link rel="stylesheet" href="assets/ui/checklist/fragment.css">
+<link rel="stylesheet" href="assets/ui/notify/fragment.css">
+<link rel="stylesheet" href="assets/diagrams/diagram.css">
+<script>document.documentElement.classList.add('m-enter');setTimeout(()=>document.documentElement.classList.add('m-enter-done'),700)</script>
+<script src="assets/backgrounds/backgrounds.js"></script>
+<script>document.documentElement.classList.add('mo-js');setTimeout(()=>document.documentElement.classList.add('mo-safe'),2500)</script>
+<link rel="modulepreload" href="assets/moments/moments.js">
+<link rel="modulepreload" href="assets/moments/lib.js">
+<link rel="modulepreload" href="assets/moments/line-carries-colour/moment.js">
+<!-- page CSS: inside visuals, one --p-h per card group, and the right-to-left turns the kit leaves to the page -->
+<style>
+  /* right to left: arrows point the way the page reads */
+  [dir="rtl"] .m-arrow { transform: scaleX(-1); }
+  [dir="rtl"] .link::after { content: "\2190"; }
+  [dir="rtl"] .nav__toggle { margin-left: 0; margin-right: auto; }
+
+  /* hero window: the open request, 880 wide in the lit frame */
+  .hero__window .ui-chat { width: 100%; }
+  .hero__window .ui-msg__text, .hero__window .ui-chat__answer { text-align: start; }
+
+  /* app frame (sections-library.md, app-frame) */
+  .app.ui { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); margin-top: var(--s-7); background: var(--u-bg); border: 1px solid var(--u-border); border-radius: var(--u-r); box-shadow: var(--u-shadow); }
+  .app > .app__pane { position: relative; min-width: 0; min-height: 0; overflow: hidden; }
+  .app > .app__pane + .app__pane { border-right: 1px solid var(--u-line); }
+  .app > .app__pane > .ui-panel { width: 100%; border: 0; border-radius: 0; box-shadow: none; }
+  .app > .app__pane > .ui-doc { width: 100%; }
+  .app > .app__pane::after { content: ""; position: absolute; inset: auto 0 0 0; height: 64px; background: linear-gradient(transparent, var(--u-bg)); pointer-events: none; }
+  @media (min-width: 1024px) and (max-width: 1279px) { .app.ui { grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); } }
+  @media (max-width: 1023px) {
+    .app.ui { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr); }
+    .app > .app__pane--list { max-height: 252px; }
+    .app > .app__pane--list::after { display: none; }
+    .app .ui-win__side { display: none; }
+    .app .ui-win__body { grid-template-columns: minmax(0, 1fr); }
+    .app > .app__pane + .app__pane { border-right: 0; border-top: 1px solid var(--u-line); }
+  }
+  @media (max-width: 639px) {
+    .app.ui { grid-template-rows: minmax(0, 1fr); }
+    .app > .app__pane--list { display: none; }
+    .app > .app__pane + .app__pane { border-top: 0; }
+  }
+
+  /* feature tiles: one panel height for the group */
+  #features .panel { --p-h: 300px; }
+  #features .panel .shot { position: absolute; inset: 24px 24px auto 24px; width: calc(100% - 48px); border-radius: var(--r-md); box-shadow: 0 0 0 1px rgb(0 0 0 / .08); }
+  @media (max-width: 639px) { #features .panel { --p-h: 184px; } #features .stage { --fade-h: 40px; } }
+
+  /* the hero's sub-line is text people read: ink, not grey */
+  .hero--centred .hero__lead { color: var(--ink); }
+  /* diagram cards lay out their nodes left to right; their Hebrew labels still read right to left inside */
+  .dg { direction: ltr; }
+
+  /* the open request in the app frame: right to left, its note on the free left side */
+  .app .ui-doc { width: 100%; padding-right: 0; }
+  .app .ui-doc__page { margin-left: 232px; }
+  .app .ui-doc__note { right: auto; left: 16px; top: 16px; }
+  @media (max-width: 639px) { .app .ui-doc__page { margin-left: 0; } .app .ui-doc__note { display: none; } }
+  @media (max-width: 639px) { .hero__window .ui-chat__online { display: none; } }
+
+  /* the sent line: FormSubmit sends the visitor back to #sent only after a real send */
+  .form__sent { display: none; margin: 0; font-weight: 500; color: var(--ink); }
+  .form__sent:target { display: block; }
+
+  /* the demo section's picture: the real dashboard, cut by its frame */
+  #demo .shot-frame { position: relative; height: 400px; overflow: hidden; border-radius: var(--r-lg); background: var(--g-alt); box-shadow: 0 0 0 1px var(--line); }
+  #demo .shot-frame img { width: 100%; height: 100%; object-fit: cover; object-position: top right; display: block; }
+  @media (max-width: 639px) { #demo .shot-frame { height: 220px; } }
+
+  /* the organisations diagram fills its panel */
+  #orgs .panel { --p-h: 640px; height: var(--p-h); }
+  @media (max-width: 1023px) { #orgs .panel { --p-h: 360px; } }
+  @media (max-width: 639px) { #orgs .panel { --p-h: 400px; } }
+</style>
+</head>
+<body>
+<!-- type: software (an RFI platform for construction projects, sold to contractors, consultant offices and supervision companies)
+     deal: hero centred, nav nav-centre, close close-type, footer footer-columns, rhythm surface-pairs, buttons pill,
+     mark ring, ground sky; palette white-link-blue (the product's own screens use a blue header on white, so the
+     page carries the same blue); type gabarito (Rubik added for the Hebrew letters); effect grain-gradient in the
+     hero window; card ground painterly-landscape (one seed per panel)
+     moments: line-carries-colour on #orgs (the one section on the surface ground) -->
+
+<header class="nav nav--centre">
+  <div class="wrap nav__bar">
+    <a class="skip-link" href="#top">דילוג לתוכן</a>
+    <a class="nav__logo" href="#top"><span class="mark" data-mark="ring" aria-hidden="true"></span>מערכת RFI</a>
+    <nav class="nav__links" aria-label="ראשי">
+      <div class="nav__item"><a class="nav__link" href="#system">המערכת</a></div>
+      <div class="nav__item">
+        <a class="nav__link" href="#features">יכולות <svg class="chev" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <div class="nav__menu">
+          <div class="wrap grid">
+            <div class="menu-col span-3">
+              <p class="t-label">לפני השליחה</p>
+              <a href="#features">בדיקת שלמות<span>חסר פריט, הבקשה לא יוצאת</span></a>
+              <a href="#features">סימון על תוכניות<span>חצים ועיגולים על תמונה ו-PDF</span></a>
+            </div>
+            <div class="menu-col span-3">
+              <p class="t-label">אחרי השליחה</p>
+              <a href="#features">שרשרת אישורים<span>מנהל, פיקוח, ואז היועץ</span></a>
+              <a href="#features">תזכורות<span>במייל ובוואטסאפ לפני מועד היעד</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="nav__item"><a class="nav__link" href="#faq">שאלות</a></div>
+      <div class="nav__item"><a class="nav__link" href="#orgs">ארגונים</a></div>
+    </nav>
+    <div class="nav__actions">
+      <a class="btn btn--primary" href="#demo">בקשו הדגמה</a>
+    </div>
+    <button class="nav__toggle" type="button" aria-expanded="false" aria-label="תפריט">
+      <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M2 5h14M2 13h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero hero--centred" data-enter aria-labelledby="hero-h">
+    <div class="wrap"><div class="hero-text">
+      <div class="hero__c">
+        <a class="pill" href="#faq"><span>מועד יעד של 3 ימי עבודה</span><span class="muted">נספר מרגע השליחה</span></a>
+        <h1 id="hero-h">ניהול בקשות RFI לפרויקטי בנייה</h1>
+        <p class="hero__lead">עובד השטח פותח בקשה מהטלפון ומצרף תמונה מסומנת. המנהל והפיקוח מאשרים, היועץ עונה בתוך הבקשה, וכל צעד נשמר בהיסטוריה.</p>
+        <div class="btn-row">
+          <a class="btn btn--primary" href="#demo">בקשו הדגמה<svg class="m-arrow" viewBox="0 0 12 12" aria-hidden="true"><path class="m-arrow__stem" d="M1 6h8"/><path class="m-arrow__head" d="M4.5 2.5 8 6l-3.5 3.5"/></svg></a>
+          <a class="btn btn--secondary" href="https://rfi-demo.onrender.com" rel="noopener">נסו את הדמו החי</a>
+        </div>
+      </div>
+      <div class="hero__window" data-fx="grain-gradient" data-fx-seed="7" role="img" aria-label="בקשה פתוחה במערכת: מנהל העבודה שואל על תעלת מיזוג שמתנגשת בקורה, ויועץ הקונסטרוקציה עונה בתוך הבקשה">
+        <div class="ly-piece" aria-hidden="true" data-ui-pause-host>
+          <div class="ui ui-panel ui-chat" data-ui="chat" data-ui-loop>
+            <div class="ui-head"><span class="ui-agent" aria-hidden="true"></span><div class="ui-title">PRK-0001 · תעלת מיזוג מתנגשת בקורה B12</div><span class="ui-chat__online">ממתין לתשובה</span><span class="ui-spacer"></span></div>
+            <div class="ui-chat__body">
+              <div class="ui-chat__day">מגדלי הפארק, בניין A · קומה 4</div>
+              <div class="ui-msg ui-msg--me" data-chat-q><span class="ui-msg__text">תעלת המיזוג 60/40 עוברת בגובה שמתנגש בתחתית קורה B12 (גיליון S-204). אפשר לבצע מעבר בקורה, או שצריך להנמיך את התעלה?</span></div>
+              <div class="ui-msg ui-msg--bot" data-chat-a>
+                <span class="ui-agent ui-msg__av" aria-hidden="true"></span>
+                <span class="ui-msg__col">
+                  <span class="ui-chat__typing" aria-hidden="true"><i></i><i></i><i></i></span>
+                  <span class="ui-chat__answer">קיבלנו. אנחנו בודקים את חתך הקורה מול תוכנית המיזוג <b>ונחזור עם פרט</b>.</span>
+                  <span class="ui-chat__srcs"><span class="ui-chat__src"><svg class="ui-icon" viewBox="0 0 16 16"><path d="M4 2.5h5l3 3v8H4z"/><path d="M9 2.5v3h3"/></svg>site.png · 4 סימונים</span><span class="ui-chat__src"><svg class="ui-icon" viewBox="0 0 16 16"><circle cx="8" cy="8" r="5.5"/><path d="M8 5v3l2 1.5"/></svg>מועד יעד 08.11, 16:00</span></span>
+                </span>
+              </div>
+            </div>
+            <div class="ui-chat__input"><span class="ui-chat__ph">הוסיפו תשובה או בקשת הבהרה</span><span class="ui-chat__send" aria-hidden="true"><svg viewBox="0 0 16 16" width="14" height="14"><path d="M8 13V3.5M3.8 7.5 8 3.3l4.2 4.2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+          </div>
+        </div>
+      </div>
+    </div></div>
+  </section>
+
+  <section class="section" id="system" aria-labelledby="system-h">
+    <div class="wrap">
+      <div class="grid">
+        <h2 class="span-5" id="system-h">כל בקשות הפרויקט במסך אחד</h2>
+        <div class="span-6 start-7 stack-4">
+          <p>הבקשות ממוינות לפי מצב: מעכבות ביצוע, באיחור, ממתינות לתשובה. פותחים בקשה ורואים את השאלה, הקבצים, התשובות וכל שינוי שנעשה בה.</p>
+          <a class="link" href="https://rfi-demo.onrender.com" rel="noopener">נסו את הדמו החי</a>
+        </div>
+      </div>
+      <div class="ui app fill" role="img" aria-label="לוח הבקרה: רשימת בקשות הפרויקט לפי מצב, ולידה בקשה פתוחה שמעכבת ביצוע בקומה 4" data-ui-pause-host>
+        <div class="app__pane app__pane--list">
+          <div class="ui ui-panel ui-win" data-ui="window" data-open="ממתין לתשובה" data-work="ממתין לאישור" data-done="נסגר">
+            <div class="ui-win__bar">
+              <span class="ui-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+              <span class="ui-win__crumb">כל הפרויקטים <i>/</i> <b>לוח בקרה</b></span>
+              <span class="ui-spacer"></span>
+              <span class="ui-win__search" aria-hidden="true"><svg class="ui-icon" viewBox="0 0 16 16"><circle cx="7" cy="7" r="4.5"/><path d="m10.5 10.5 3 3"/></svg><span class="ui-win__ph">חיפוש</span></span>
+            </div>
+            <div class="ui-win__body">
+              <nav class="ui-win__side" aria-hidden="true">
+                <span class="ui-win__nav is-on"><svg class="ui-icon" viewBox="0 0 16 16"><path d="M8 2.5 14 13H2z"/><path d="M8 6.5v3"/></svg>מעכבות<em>2</em></span>
+                <span class="ui-win__nav"><svg class="ui-icon" viewBox="0 0 16 16"><circle cx="8" cy="8" r="5.5"/><path d="M8 5v3l2 1.5"/></svg>באיחור<em>3</em></span>
+                <span class="ui-win__nav"><svg class="ui-icon" viewBox="0 0 16 16"><path d="M2.5 9h3l1 1.5h3l1-1.5h3"/><path d="M2.5 9 4 3.5h8L13.5 9v3.5h-11z"/></svg>ממתינות<em>6</em></span>
+                <span class="ui-win__nav"><svg class="ui-icon" viewBox="0 0 16 16"><path d="m3.5 8.4 2.8 2.8 6.2-6.4"/></svg>סגורות<em>1</em></span>
+                <span class="ui-win__label">פרויקטים</span>
+                <span class="ui-win__nav"><span class="ui-win__hash">#</span>מגדלי הפארק</span>
+                <span class="ui-win__nav"><span class="ui-win__hash">#</span>בית ספר יסודי</span>
+                <span class="ui-win__nav"><span class="ui-win__hash">#</span>מרכז מסחרי</span>
+              </nav>
+              <div class="ui-win__main">
+                <div class="ui-win__cols" aria-hidden="true"><span>יועץ</span><span>כותרת</span><span>מצב</span><span>מועד</span></div>
+                <ul class="ui-win__rows">
+                  <li class="ui-win__row" data-row><span class="ui-avatar" data-tone="1">קו</span><span class="ui-win__who">מבנים · קונסטרוקציה</span><span class="ui-win__sub">PRK-0001 · תעלת מיזוג מתנגשת בקורה B12</span><span class="ui-win__st is-you" data-st>מעכב ביצוע</span><span class="ui-win__age">08.11</span></li>
+                  <li class="ui-win__row" data-row><span class="ui-avatar" data-tone="3">חש</span><span class="ui-win__who">יועץ חשמל</span><span class="ui-win__sub">SCH-0001 · מיקום לוח חשמל קומתי</span><span class="ui-win__st is-you" data-st>מעכב ביצוע</span><span class="ui-win__age">08.11</span></li>
+                  <li class="ui-win__row" data-row><span class="ui-avatar" data-tone="4">בא</span><span class="ui-win__who">יועץ בטיחות אש</span><span class="ui-win__sub">MLL-0002 · רוחב מעבר מילוט במסדרון</span><span class="ui-win__st" data-st>ממתין לתשובה</span><span class="ui-win__age">03.11</span></li>
+                  <li class="ui-win__row" data-row><span class="ui-avatar" data-tone="2">אי</span><span class="ui-win__who">יועץ אינסטלציה</span><span class="ui-win__sub">PRK-0003 · מעבר צנרת דרך קיר בטון</span><span class="ui-win__st" data-st>ממתין לתשובה</span><span class="ui-win__age">02.11</span></li>
+                  <li class="ui-win__row" data-row><span class="ui-avatar" data-tone="1">קו</span><span class="ui-win__who">מבנים · קונסטרוקציה</span><span class="ui-win__sub">MLL-0001 · חיזוק תקרה לחנות העוגן</span><span class="ui-win__st" data-st>ממתין לתשובה</span><span class="ui-win__age">03.11</span></li>
+                  <li class="ui-win__row" data-row><span class="ui-avatar" data-tone="5">פק</span><span class="ui-win__who">חברת הפיקוח</span><span class="ui-win__sub">SCH-0002 · גובה מעקה בגג</span><span class="ui-win__st" data-st>ממתין לאישור</span><span class="ui-win__age">10.11</span></li>
+                  <li class="ui-win__row" data-row><span class="ui-avatar" data-tone="3">חש</span><span class="ui-win__who">יועץ חשמל</span><span class="ui-win__sub">PRK-0004 · הזנה למעלית שירות</span><span class="ui-win__st" data-st>ממתין לתשובה</span><span class="ui-win__age">11.11</span></li>
+                  <li class="ui-win__row" data-row><span class="ui-avatar" data-tone="2">אי</span><span class="ui-win__who">יועץ אינסטלציה</span><span class="ui-win__sub">MLL-0003 · שיפוע ניקוז במרתף</span><span class="ui-win__st" data-st>ממתין לתשובה</span><span class="ui-win__age">12.11</span></li>
+                  <li class="ui-win__row" data-row><span class="ui-avatar" data-tone="1">קו</span><span class="ui-win__who">מבנים · קונסטרוקציה</span><span class="ui-win__sub">PRK-0002 · עובי פלטת קומה 3</span><span class="ui-win__st is-done" data-st>נסגר</span><span class="ui-win__age">31.10</span></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="app__pane app__pane--open" data-ui-loop>
+          <div class="ui ui-doc" data-ui="doc">
+            <article class="ui-doc__page">
+              <div class="ui-doc__label">PRK-0001 · מגדלי הפארק, בניין A · קונסטרוקציה</div>
+              <div class="ui-doc__title">תעלת מיזוג מתנגשת בקורה B12</div>
+              <div class="ui-doc__text"><mark class="ui-doc__mark is-on">מעכב ביצוע: עבודות תקרה אקוסטית ומיזוג בקומה 4 נעצרו.</mark></div>
+              <div class="ui-doc__text">תעלת המיזוג 60/40 לפי תוכנית המיזוג עוברת בגובה שמתנגש בתחתית קורה B12 (גיליון S-204 מהדורה C). האם ניתן לבצע מעבר בקורה, או שנדרש להנמיך את התעלה ובאיזה פרט?</div>
+              <div class="ui-doc__text">מיקום: קומה 4, בין צירים 2–3 / A–B. יועץ אחראי: מבנים, משרד הנדסת קונסטרוקציה.</div>
+              <div class="ui-doc__text">קובץ מצורף: <mark class="ui-doc__mark" data-kind="סימונים" data-msg="4 סימונים על קטע מתוכנית S-204. הקובץ המקורי לא השתנה." data-where="site.png · נוסף ב-03.11, 23:24">קטע מתוכנית S-204 עם מיקום ההתנגשות</mark>.</div>
+              <div class="ui-doc__text">נשלח ליועץ ב-03.11.2026, 23:24. מועד יעד: <mark class="ui-doc__mark" data-kind="מועד יעד" data-msg="3 ימי עבודה מרגע השליחה, בלי שישי ושבת." data-where="הגדרות זמני מענה">08.11.2026, 16:00</mark>.</div>
+              <div class="ui-doc__text">היסטוריה: הבקשה נוצרה, צורף קובץ, עודכנו סימונים, נשלחה ליועץ, נוספה הערה.</div>
+              <div class="ui-doc__text">תשובת היועץ: קיבלנו. אנחנו בודקים את חתך הקורה מול תוכנית המיזוג ונחזור עם פרט.</div>
+            </article>
+            <aside class="ui-doc__note ui-panel is-on" aria-live="polite">
+              <div class="ui-doc__kind"><span class="ui-doc__dot"></span><span data-doc-kind>מעכב ביצוע</span></div>
+              <div class="ui-doc__msg" data-doc-msg>הבקשה מופיעה בראש לוח הבקרה עד שתיסגר.</div>
+              <div class="ui-doc__where" data-doc-where>לוח בקרה · מעכבות ביצוע</div>
+            </aside>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section g2" id="features" aria-labelledby="features-h">
+    <div class="wrap">
+      <div class="group">
+        <div class="section-head">
+          <h2 id="features-h">בקשה שלמה כבר בשליחה הראשונה. <span class="muted">המערכת בודקת, מסמנת, מאשרת ומזכירה.</span></h2>
+        </div>
+        <div class="grid">
+          <article class="card card--row card--open span-6">
+            <h3>בודקת שהבקשה שלמה</h3>
+            <p>מסך הסיכום מראה מה חסר: תמונה, תיאור לכל תמונה, הסבר למה העבודה נעצרה. בלי פריטי החובה הבקשה לא יוצאת.</p>
+            <div class="panel" data-fx="painterly-landscape" data-fx-seed="21" data-fx-params='{"drift":0}' data-ui-pause-host>
+              <div class="stage stage--fade-b"><div class="at-rise fit" style="--fit-max:400px;--ax:max(24px, 50% - 200px);--ay:calc(100% - 180px);--ay-sm:calc(100% - 180px)" data-ui-loop>
+                <div class="ui ui-panel ui-checks" data-ui="checklist">
+                  <div class="ui-checks__head"><div class="ui-title">בדיקת שלמות לפני שליחה</div><span class="ui-spacer"></span><div class="ui-meta" data-checks-count>2 מתוך 5</div></div>
+                  <div class="ui-checks__bar"><i data-checks-bar style="--k:0.4"></i></div>
+                  <ul class="ui-checks__list">
+                    <li class="ui-check is-done"><span class="ui-check__box"><svg viewBox="0 0 16 16"><path d="m4.5 8.2 2.3 2.3 4.7-5"/></svg></span><span class="ui-check__label">תמונה או מסמך אחד לפחות</span></li>
+                    <li class="ui-check is-done"><span class="ui-check__box"><svg viewBox="0 0 16 16"><path d="m4.5 8.2 2.3 2.3 4.7-5"/></svg></span><span class="ui-check__label">תיאור לכל תמונה</span></li>
+                    <li class="ui-check"><span class="ui-check__box"><svg viewBox="0 0 16 16"><path d="m4.5 8.2 2.3 2.3 4.7-5"/></svg></span><span class="ui-check__label">הסבר מה נעצר ולמה</span></li>
+                    <li class="ui-check"><span class="ui-check__box"><svg viewBox="0 0 16 16"><path d="m4.5 8.2 2.3 2.3 4.7-5"/></svg></span><span class="ui-check__label">יועץ אחראי לפי תחום</span></li>
+                    <li class="ui-check"><span class="ui-check__box"><svg viewBox="0 0 16 16"><path d="m4.5 8.2 2.3 2.3 4.7-5"/></svg></span><span class="ui-check__label">מיקום בפרויקט</span></li>
+                  </ul>
+                </div>
+              </div></div>
+            </div>
+          </article>
+          <article class="card card--row card--open span-6">
+            <h3>מסמנת על תמונות ותוכניות</h3>
+            <p>חץ, עיגול, אזור והערה על תמונה או על קובץ PDF. הסימונים נשמרים בשכבה נפרדת, והקובץ המקורי לא משתנה.</p>
+            <div class="panel" data-fx="painterly-landscape" data-fx-seed="22" data-fx-params='{"drift":0}'>
+              <img class="shot" src="assets/product-screens/markup-mobile-600.jpg" width="600" height="1298" alt="סימון על קטע מתוכנית: עיגול אדום סביב התנגשות של תעלת מיזוג בקורה, וחץ עם ההערה התנגשות 12 ס״מ" loading="lazy" data-source="client" data-subject="the product's markup screen">
+            </div>
+          </article>
+        </div>
+      </div>
+      <div class="grid">
+        <article class="card card--row card--open span-6">
+          <h3>מעבירה את הבקשה לאישור</h3>
+          <p>המנהל מאשר או מחזיר לתיקון, והפיקוח בודק לפני היועץ. שעון היועץ מתחיל רק כשהבקשה מגיעה אליו.</p>
+          <div class="panel" data-fx="painterly-landscape" data-fx-seed="23" data-fx-params='{"drift":0}'>
+            <div class="dg" data-diagram><script type="application/json">{"layout": "timeline", "alt": "בקשה נפתחת בשטח, מאושרת בידי המנהל ובידי הפיקוח, נשלחת ליועץ ונענית.", "steps": [{"label": "נפתחה", "sub": "09:10", "icon": "ui:file-text"}, {"label": "אישור מנהל", "sub": "11:40", "icon": "ui:user"}, {"label": "אישור פיקוח", "sub": "14:20", "icon": "ui:check"}, {"label": "אצל היועץ", "sub": "14:21", "icon": "ui:send"}, {"label": "נענתה", "sub": "16:05", "icon": "ui:message-square"}]}</script></div>
+          </div>
+        </article>
+        <article class="card card--row card--open span-6">
+          <h3>שולחת תזכורות במייל ובוואטסאפ</h3>
+          <p>כל מי שקשור לבקשה מקבל הודעה. לפני מועד היעד ואחריו נשלחת תזכורת למי שהבקשה נמצאת אצלו.</p>
+          <div class="panel" data-fx="painterly-landscape" data-fx-seed="24" data-fx-params='{"drift":0}'>
+            <div class="stage stage--fade-b"><div class="at-rise fit" style="--fit-max:400px;--ax:max(24px, 50% - 200px);--ay:calc(100% - 180px);--ay-sm:calc(100% - 180px)">
+              <div class="ui ui-notify" data-ui="notify">
+                <ul class="ui-notify__list" data-notify-list>
+                  <li class="ui-note"><span class="ui-note__ico"><img data-icon="whatsapp" src="assets/icons/whatsapp.svg" alt="" width="16" height="16" loading="lazy"></span><span class="ui-note__text"><span class="ui-note__title">מועד היעד מחר, 16:00<time>עכשיו</time></span><span class="ui-note__body">PRK-0001 עדיין ממתינה לתשובה שלכם</span></span><span class="ui-btn ui-btn--sm ui-note__btn">פתיחה</span></li>
+                  <li class="ui-note"><span class="ui-note__ico"><img data-icon="gmail" src="assets/icons/gmail.svg" alt="" width="16" height="16" loading="lazy"></span><span class="ui-note__text"><span class="ui-note__title">הבקשה אושרה בפיקוח<time>12 ד׳</time></span><span class="ui-note__body">SCH-0002 נשלחה ליועץ</span></span></li>
+                  <li class="ui-note"><span class="ui-note__ico"><svg class="ui-icon" viewBox="0 0 16 16"><path d="m3.5 8.4 2.8 2.8 6.2-6.4"/></svg></span><span class="ui-note__text"><span class="ui-note__title">התקבלה תשובה<time>1 ש׳</time></span><span class="ui-note__body">PRK-0002 נסגרה בידי מנהל הפרויקט</span></span></li>
+                </ul>
+              </div>
+            </div></div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="faq" aria-labelledby="faq-h">
+    <div class="wrap">
+      <div class="grid">
+        <div class="span-5 stack-4">
+          <h2 id="faq-h">שאלות לפני שמתחילים</h2>
+          <p class="muted">לא מצאתם תשובה? כתבו לנו, ונענה על הפרויקט שלכם.</p>
+          <a class="link" href="https://wa.me/972522948559" rel="noopener">שלחו הודעה בוואטסאפ</a>
+        </div>
+        <div class="faq span-6 start-7">
+          <div class="faq__item"><h3>על אילו מכשירים זה עובד?</h3><p>במחשב, ב-iPhone וב-Android, מתוך הדפדפן. אפשר להוסיף את המערכת למסך הבית.</p></div>
+          <div class="faq__item"><h3>איך נספר מועד היעד?</h3><p>3 ימי עבודה מרגע השליחה, בלי שישי, שבת וחגים. את ימי העבודה והשעות קובעים בהגדרות.</p></div>
+          <div class="faq__item"><h3>מה קורה אם השמירה נכשלת?</h3><p>הטופס נשאר מלא ומופיעה הודעת שגיאה. ״נשמר״ מוצג רק אחרי שהשרת החזיר את הבקשה השמורה.</p></div>
+          <div class="faq__item"><h3>אפשר לעבוד בלי חיבור לאינטרנט?</h3><p>לא. אין שמירה בלי שרת, כדי שלא תהיה בקשה שנראית שמורה ולא נשמרה.</p></div>
+          <div class="faq__item"><h3>מה עושה ה-AI בטופס?</h3><p>מציע ניסוח ובודק מידע חסר. העובד מאשר כל שינוי, וה-AI לא ממציא נתונים הנדסיים.</p></div>
+          <div class="faq__item"><h3>כמה זה עולה?</h3><p>המחיר נמסר לפי בקשה. השאירו פרטים בטופס ההדגמה.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section ground-surface" id="orgs" data-moment="line-carries-colour" data-moment-opts='{"from": "base"}' aria-labelledby="orgs-h">
+    <div class="wrap">
+      <div class="grid">
+        <div class="span-5 stack-4">
+          <h2 id="orgs-h">קבלנים, יועצים ופיקוח במערכת אחת. <span class="muted">כל ארגון נשאר נפרד.</span></h2>
+          <p>לכל חברה משתמשים, פרויקטים, ספר יועצים והגדרות משלה. משרד יועצים מחובר רואה רק בקשות שנשלחו אליו, וחברת פיקוח מחוברת רואה כל מה שנשלח.</p>
+          <p class="muted">מתחברים בקוד חיבור, או בבקשה שמאשרים מנהלי המערכת של שני הארגונים.</p>
+        </div>
+        <div class="span-6 start-7">
+          <div class="panel">
+            <div class="dg" data-diagram><script type="application/json">{"layout": "hub", "alt": "הקבלן הראשי מחובר למשרדי היועצים ולחברת הפיקוח, וכל אחד מהם רואה רק את הבקשות שלו.", "center": {"label": "הקבלן הראשי", "icon": "ui:building"}, "spokes": [{"label": "קונסטרוקציה", "icon": "ui:ruler"}, {"label": "חשמל", "icon": "ui:zap"}, {"label": "אינסטלציה", "icon": "ui:droplet"}, {"label": "בטיחות אש", "icon": "ui:flame"}, {"label": "חברת הפיקוח", "icon": "ui:shield-check"}]}</script></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="demo" aria-labelledby="demo-h">
+    <div class="wrap">
+      <div class="grid">
+        <div class="span-5 stack-4">
+          <h2 id="demo-h">הדגמה על פרויקט לדוגמה</h2>
+          <p>השאירו פרטים ונקבע הדגמה של המערכת. אפשר גם לנסות לבד את הדמו החי, עם כניסה בלחיצה לכל תפקיד.</p>
+          <p class="muted">הדמו פועל על שרת חינמי, ולכן הכניסה הראשונה לוקחת כחצי דקה.</p>
+          <a class="link" href="https://wa.me/972522948559" rel="noopener">שלחו הודעה בוואטסאפ</a>
+          <div class="shot-frame"><picture><source media="(max-width: 639px)" srcset="assets/product-screens/dashboard-mobile-700.jpg"><img src="assets/product-screens/dashboard-desktop-1280.jpg" width="1280" height="800" alt="לוח הבקרה של המערכת: כרטיסיות לפי מצב הבקשה וטבלת הבקשות, עם שתי בקשות שמעכבות ביצוע בראשה" loading="lazy" data-source="client" data-subject="the product's dashboard"></picture></div>
+        </div>
+        <div class="span-6 start-7">
+          <form class="form" action="https://formsubmit.co/5bc8a91b57aa3e85e2c2183e564223bd" method="post" data-fix="יש לתקן {n} שדות." novalidate>
+            <input type="hidden" name="_subject" value="בקשת הדגמה מהאתר של מערכת RFI">
+            <input type="hidden" name="_template" value="table">
+            <input type="hidden" name="_next" value="https://ramizrahi-2206.github.io/rfi-site/#sent">
+            <div class="field"><label for="f-name">שם מלא</label>
+              <input id="f-name" name="name" type="text" autocomplete="name" required aria-describedby="f-name-err">
+              <p class="field__error" id="f-name-err" hidden>כתבו את השם שלכם.</p></div>
+            <div class="field"><label for="f-company">חברה</label>
+              <input id="f-company" name="company" type="text" autocomplete="organization" required aria-describedby="f-company-err">
+              <p class="field__error" id="f-company-err" hidden>כתבו את שם החברה או המשרד.</p></div>
+            <div class="field"><label for="f-email">אימייל</label>
+              <input id="f-email" name="email" type="email" autocomplete="email" inputmode="email" dir="ltr" required aria-describedby="f-email-err">
+              <p class="field__error" id="f-email-err" hidden>כתבו כתובת אימייל עם @, למשל name@company.co.il.</p></div>
+            <div class="field"><label for="f-phone">טלפון</label>
+              <input id="f-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" dir="ltr" required aria-describedby="f-phone-err">
+              <p class="field__error" id="f-phone-err" hidden>כתבו מספר טלפון שאפשר לחזור אליו.</p></div>
+            <div class="field"><label for="f-notes">הפרויקט ומה חשוב לכם לראות (לא חובה)</label>
+              <textarea id="f-notes" name="notes" rows="3" autocomplete="off"></textarea></div>
+            <div class="btn-row"><button class="btn btn--primary" type="submit">בקשו הדגמה</button></div>
+            <p class="form__status" role="status" data-form-status></p>
+            <p class="form__sent" id="sent">בקשת ההדגמה נשלחה. נחזור אליכם לטלפון או למייל שהשארתם.</p>
+            <p class="t-small muted">הפרטים מגיעים אלינו במייל, ואנחנו חוזרים אליכם לתיאום.</p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer closing" id="contact" aria-labelledby="close-h">
+  <div class="wrap">
+    <div class="closing__cta close--type">
+      <div class="section-head">
+        <h2 id="close-h">ראו את מערכת RFI על הפרויקט שלכם</h2>
+        <p>הדגמה בפגישה, או לבד בדמו החי.</p>
+      </div>
+      <a class="btn btn--primary btn--xl btn--wide" href="#demo">בקשו הדגמה<svg class="m-arrow" viewBox="0 0 12 12" aria-hidden="true"><path class="m-arrow__stem" d="M1 6h8"/><path class="m-arrow__head" d="M4.5 2.5 8 6l-3.5 3.5"/></svg></a>
+    </div>
+    <div class="closing__links">
+      <div class="grid">
+        <div class="span-4 stack-4">
+          <a class="nav__logo" href="#top"><span class="mark" data-mark="ring" aria-hidden="true"></span>מערכת RFI</a>
+          <p class="footer__lede">בקשות מידע הנדסיות, מהשטח ועד היועץ.</p>
+        </div>
+        <div class="span-2 footer__col"><h3>המערכת</h3><ul><li><a href="#system">לוח בקרה</a></li><li><a href="https://rfi-demo.onrender.com" rel="noopener">דמו חי</a></li></ul></div>
+        <div class="span-2 footer__col"><h3>יכולות</h3><ul><li><a href="#features">בדיקת שלמות</a></li><li><a href="#features">תזכורות</a></li></ul></div>
+        <div class="span-2 footer__col"><h3>שאלות</h3><ul><li><a href="#faq">מועד יעד</a></li><li><a href="#faq">מחיר</a></li></ul></div>
+        <div class="span-2 footer__col"><h3>ארגונים</h3><ul><li><a href="#orgs">יועצים ופיקוח</a></li><li><a href="#demo">יצירת קשר</a></li></ul></div>
+      </div>
+      <div class="footer__legal">
+        <span>&copy; 2026 מערכת RFI</span>
+        <div class="socials"></div>
+        <span class="t-small muted">שמות מוצרים וסמלים שייכים לבעליהם.</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script type="module" src="assets/system.js"></script>
+<script type="module" src="assets/motion/motion.js"></script>
+<script type="module" src="assets/layout/layout.js"></script>
+<script type="module" src="assets/diagrams/mount.js"></script>
+</body>
+</html>

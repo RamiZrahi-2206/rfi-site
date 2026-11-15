@@ -1,0 +1,9 @@
+# only the website itself is published
+/*
+!/index.html
+!/favicon.svg
+!/share.jpg
+!/assets/
+!/.gitignore
+!/.nojekyll
+.DS_Store
