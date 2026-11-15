@@ -122,6 +122,16 @@
   @media (max-width: 639px) { .app .ui-doc__page { margin-left: 0; } .app .ui-doc__note { display: none; } }
   @media (max-width: 639px) { .hero__window .ui-chat__online { display: none; } }
 
+  /* the ways in: WhatsApp beside the main button, the demo's wait said where it is clicked */
+  .wa-ico { width: 18px; height: 18px; flex: none; }
+  .nav__wa { gap: var(--s-2); }
+  .hero__note { margin: 0; font-size: 14px; color: var(--muted); }
+  .paths { list-style: none; margin: var(--s-3) 0 0; padding: 0; display: grid; gap: var(--s-3); }
+  .paths li { line-height: 1.6; }
+  .paths b { font-weight: 500; }
+  .close__more { margin-top: var(--s-4); }
+  .close__more .btn { gap: var(--s-2); }
+
   /* the sent line: FormSubmit sends the visitor back to #sent only after a real send */
   .form__sent { display: none; margin: 0; font-weight: 500; color: var(--ink); }
   .form__sent:target { display: block; }
@@ -172,6 +182,7 @@
       <div class="nav__item"><a class="nav__link" href="#orgs">ארגונים</a></div>
     </nav>
     <div class="nav__actions">
+      <a class="nav__link nav__wa" href="https://wa.me/972522948559" target="_blank" rel="noopener"><img class="wa-ico" src="assets/icons/whatsapp.svg" alt="" width="18" height="18">וואטסאפ</a>
       <a class="btn btn--primary" href="#demo">בקשו הדגמה</a>
     </div>
     <button class="nav__toggle" type="button" aria-expanded="false" aria-label="תפריט">
@@ -189,8 +200,9 @@
         <p class="hero__lead">עובד השטח פותח בקשה מהטלפון ומצרף תמונה מסומנת. המנהל והפיקוח מאשרים, היועץ עונה בתוך הבקשה, וכל צעד נשמר בהיסטוריה.</p>
         <div class="btn-row">
           <a class="btn btn--primary" href="#demo">בקשו הדגמה<svg class="m-arrow" viewBox="0 0 12 12" aria-hidden="true"><path class="m-arrow__stem" d="M1 6h8"/><path class="m-arrow__head" d="M4.5 2.5 8 6l-3.5 3.5"/></svg></a>
-          <a class="btn btn--secondary" href="https://rfi-demo.onrender.com" rel="noopener">נסו את הדמו החי</a>
+          <a class="btn btn--secondary" href="https://rfi-demo.onrender.com" target="_blank" rel="noopener">נסו את הדמו החי</a>
         </div>
+        <p class="hero__note">הדמו נפתח בלשונית חדשה. בכניסה הראשונה הוא נטען כחצי דקה.</p>
       </div>
       <div class="hero__window" data-fx="grain-gradient" data-fx-seed="7" role="img" aria-label="בקשה פתוחה במערכת: מנהל העבודה שואל על תעלת מיזוג שמתנגשת בקורה, ויועץ הקונסטרוקציה עונה בתוך הבקשה">
         <div class="ly-piece" aria-hidden="true" data-ui-pause-host>
@@ -221,7 +233,7 @@
         <h2 class="span-5" id="system-h">כל בקשות הפרויקט במסך אחד</h2>
         <div class="span-6 start-7 stack-4">
           <p>הבקשות ממוינות לפי מצב: מעכבות ביצוע, באיחור, ממתינות לתשובה. פותחים בקשה ורואים את השאלה, הקבצים, התשובות וכל שינוי שנעשה בה.</p>
-          <a class="link" href="https://rfi-demo.onrender.com" rel="noopener">נסו את הדמו החי</a>
+          <a class="link" href="https://rfi-demo.onrender.com" target="_blank" rel="noopener">נסו את הדמו החי</a>
         </div>
       </div>
       <div class="ui app fill" role="img" aria-label="לוח הבקרה: רשימת בקשות הפרויקט לפי מצב, ולידה בקשה פתוחה שמעכבת ביצוע בקומה 4" data-ui-pause-host>
@@ -353,7 +365,7 @@
         <div class="span-5 stack-4">
           <h2 id="faq-h">שאלות לפני שמתחילים</h2>
           <p class="muted">לא מצאתם תשובה? כתבו לנו, ונענה על הפרויקט שלכם.</p>
-          <a class="link" href="https://wa.me/972522948559" rel="noopener">שלחו הודעה בוואטסאפ</a>
+          <a class="link" href="https://wa.me/972522948559" target="_blank" rel="noopener">שלחו הודעה בוואטסאפ</a>
         </div>
         <div class="faq span-6 start-7">
           <div class="faq__item"><h3>על אילו מכשירים זה עובד?</h3><p>במחשב, ב-iPhone וב-Android, מתוך הדפדפן. אפשר להוסיף את המערכת למסך הבית.</p></div>
@@ -389,9 +401,11 @@
       <div class="grid">
         <div class="span-5 stack-4">
           <h2 id="demo-h">הדגמה על פרויקט לדוגמה</h2>
-          <p>השאירו פרטים ונקבע הדגמה של המערכת. אפשר גם לנסות לבד את הדמו החי, עם כניסה בלחיצה לכל תפקיד.</p>
-          <p class="muted">הדמו פועל על שרת חינמי, ולכן הכניסה הראשונה לוקחת כחצי דקה.</p>
-          <a class="link" href="https://wa.me/972522948559" rel="noopener">שלחו הודעה בוואטסאפ</a>
+          <ul class="paths">
+            <li><b>הדגמה מודרכת:</b> השאירו פרטים בטופס, ונתאם הדגמה על פרויקט לדוגמה.</li>
+            <li><b>לבד, עכשיו:</b> <a class="link" href="https://rfi-demo.onrender.com" target="_blank" rel="noopener">נסו את הדמו החי</a> עם כניסה בלחיצה לכל תפקיד. הטעינה הראשונה כחצי דקה.</li>
+            <li><b>שאלה קצרה:</b> <a class="link" href="https://wa.me/972522948559" target="_blank" rel="noopener">שלחו הודעה בוואטסאפ</a></li>
+          </ul>
           <div class="shot-frame"><picture><source media="(max-width: 639px)" srcset="assets/product-screens/dashboard-mobile-700.jpg"><img src="assets/product-screens/dashboard-desktop-1280.jpg" width="1280" height="800" alt="לוח הבקרה של המערכת: כרטיסיות לפי מצב הבקשה וטבלת הבקשות, עם שתי בקשות שמעכבות ביצוע בראשה" loading="lazy" data-source="client" data-subject="the product's dashboard"></picture></div>
         </div>
         <div class="span-6 start-7">
@@ -408,8 +422,8 @@
             <div class="field"><label for="f-email">אימייל</label>
               <input id="f-email" name="email" type="email" autocomplete="email" inputmode="email" dir="ltr" required aria-describedby="f-email-err">
               <p class="field__error" id="f-email-err" hidden>כתבו כתובת אימייל עם @, למשל name@company.co.il.</p></div>
-            <div class="field"><label for="f-phone">טלפון</label>
-              <input id="f-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" dir="ltr" required aria-describedby="f-phone-err">
+            <div class="field"><label for="f-phone">טלפון (לא חובה)</label>
+              <input id="f-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" dir="ltr" aria-describedby="f-phone-err">
               <p class="field__error" id="f-phone-err" hidden>כתבו מספר טלפון שאפשר לחזור אליו.</p></div>
             <div class="field"><label for="f-notes">הפרויקט ומה חשוב לכם לראות (לא חובה)</label>
               <textarea id="f-notes" name="notes" rows="3" autocomplete="off"></textarea></div>
@@ -429,9 +443,13 @@
     <div class="closing__cta close--type">
       <div class="section-head">
         <h2 id="close-h">ראו את מערכת RFI על הפרויקט שלכם</h2>
-        <p>הדגמה בפגישה, או לבד בדמו החי.</p>
+        <p>הדגמה בפגישה, לבד בדמו החי, או שאלה בוואטסאפ.</p>
       </div>
       <a class="btn btn--primary btn--xl btn--wide" href="#demo">בקשו הדגמה<svg class="m-arrow" viewBox="0 0 12 12" aria-hidden="true"><path class="m-arrow__stem" d="M1 6h8"/><path class="m-arrow__head" d="M4.5 2.5 8 6l-3.5 3.5"/></svg></a>
+      <div class="btn-row close__more">
+        <a class="btn btn--secondary" href="https://wa.me/972522948559" target="_blank" rel="noopener"><img class="wa-ico" src="assets/icons/whatsapp.svg" alt="" width="18" height="18">שלחו הודעה בוואטסאפ</a>
+        <a class="btn btn--secondary" href="https://rfi-demo.onrender.com" target="_blank" rel="noopener">נסו את הדמו החי</a>
+      </div>
     </div>
     <div class="closing__links">
       <div class="grid">
@@ -439,7 +457,7 @@
           <a class="nav__logo" href="#top"><span class="mark" data-mark="ring" aria-hidden="true"></span>מערכת RFI</a>
           <p class="footer__lede">בקשות מידע הנדסיות, מהשטח ועד היועץ.</p>
         </div>
-        <div class="span-2 footer__col"><h3>המערכת</h3><ul><li><a href="#system">לוח בקרה</a></li><li><a href="https://rfi-demo.onrender.com" rel="noopener">דמו חי</a></li></ul></div>
+        <div class="span-2 footer__col"><h3>המערכת</h3><ul><li><a href="#system">לוח בקרה</a></li><li><a href="https://rfi-demo.onrender.com" target="_blank" rel="noopener">דמו חי</a></li></ul></div>
         <div class="span-2 footer__col"><h3>יכולות</h3><ul><li><a href="#features">בדיקת שלמות</a></li><li><a href="#features">תזכורות</a></li></ul></div>
         <div class="span-2 footer__col"><h3>שאלות</h3><ul><li><a href="#faq">מועד יעד</a></li><li><a href="#faq">מחיר</a></li></ul></div>
         <div class="span-2 footer__col"><h3>ארגונים</h3><ul><li><a href="#orgs">יועצים ופיקוח</a></li><li><a href="#demo">יצירת קשר</a></li></ul></div>
