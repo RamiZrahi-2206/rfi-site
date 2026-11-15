@@ -68,6 +68,19 @@
 
   /* hero window: the open request, 880 wide in the lit frame */
   .hero__window .ui-chat { width: 100%; }
+  /* contrast (Impeccable critique P1): the windows' secondary text is a blue-grey that reads 4.5:1 or better on
+     white, and the hero's chat is an opaque white panel instead of taking the frame's tint, so it never reads as
+     disabled. Text people read is 15px, meta 14px */
+  .ui { --u-muted: #4e5966; --u-soft: #5d6874; }
+  .hero__window .ui-chat { --u-bg: #ffffff; --u-surface: #f2f5f9; --u-fill: #f6f8fb; --u-ink: #111111; background: #ffffff; color: var(--ink); }
+  .hero__window .ui-msg--me { background: #e9effb; color: var(--ink); }
+  .hero__window .ui-msg__text, .hero__window .ui-chat__answer { font-size: 15px; line-height: 22px; }
+  .hero__window .ui-title, .hero__window .ui-chat__day, .hero__window .ui-chat__online,
+  .hero__window .ui-chat__src, .hero__window .ui-chat__ph { font-size: 14px; }
+  .hero__window .ui-chat__input { background: #f2f5f9; }
+  /* the timeline's captions sit on the panel's landscape, so each gets a white plate */
+  #features .dg-cap { background: rgb(255 255 255 / .94); padding: 3px 8px; border-radius: 6px; }
+  #features .dg-cap__s { font-size: 13px; color: #4e5966; }
   .hero__window .ui-msg__text, .hero__window .ui-chat__answer { text-align: start; }
 
   /* app frame (sections-library.md, app-frame) */
@@ -185,7 +198,7 @@
             <div class="ui-head"><span class="ui-agent" aria-hidden="true"></span><div class="ui-title">PRK-0001 · תעלת מיזוג מתנגשת בקורה B12</div><span class="ui-chat__online">ממתין לתשובה</span><span class="ui-spacer"></span></div>
             <div class="ui-chat__body">
               <div class="ui-chat__day">מגדלי הפארק, בניין A · קומה 4</div>
-              <div class="ui-msg ui-msg--me" data-chat-q><span class="ui-msg__text">תעלת המיזוג 60/40 עוברת בגובה שמתנגש בתחתית קורה B12 (גיליון S-204). אפשר לבצע מעבר בקורה, או שצריך להנמיך את התעלה?</span></div>
+              <div class="ui-msg ui-msg--me" data-chat-q><span class="ui-msg__text">תעלת המיזוג 60/40 עוברת בגובה שמתנגש בתחתית קורה B12 (גיליון <bdi dir="ltr">S‑204</bdi>). אפשר לבצע מעבר בקורה, או שצריך להנמיך את התעלה?</span></div>
               <div class="ui-msg ui-msg--bot" data-chat-a>
                 <span class="ui-agent ui-msg__av" aria-hidden="true"></span>
                 <span class="ui-msg__col">
@@ -254,9 +267,9 @@
               <div class="ui-doc__label">PRK-0001 · מגדלי הפארק, בניין A · קונסטרוקציה</div>
               <div class="ui-doc__title">תעלת מיזוג מתנגשת בקורה B12</div>
               <div class="ui-doc__text"><mark class="ui-doc__mark is-on">מעכב ביצוע: עבודות תקרה אקוסטית ומיזוג בקומה 4 נעצרו.</mark></div>
-              <div class="ui-doc__text">תעלת המיזוג 60/40 לפי תוכנית המיזוג עוברת בגובה שמתנגש בתחתית קורה B12 (גיליון S-204 מהדורה C). האם ניתן לבצע מעבר בקורה, או שנדרש להנמיך את התעלה ובאיזה פרט?</div>
+              <div class="ui-doc__text">תעלת המיזוג 60/40 לפי תוכנית המיזוג עוברת בגובה שמתנגש בתחתית קורה B12 (גיליון <bdi dir="ltr">S‑204</bdi> מהדורה C). האם ניתן לבצע מעבר בקורה, או שנדרש להנמיך את התעלה ובאיזה פרט?</div>
               <div class="ui-doc__text">מיקום: קומה 4, בין צירים 2–3 / A–B. יועץ אחראי: מבנים, משרד הנדסת קונסטרוקציה.</div>
-              <div class="ui-doc__text">קובץ מצורף: <mark class="ui-doc__mark" data-kind="סימונים" data-msg="4 סימונים על קטע מתוכנית S-204. הקובץ המקורי לא השתנה." data-where="site.png · נוסף ב-03.11, 23:24">קטע מתוכנית S-204 עם מיקום ההתנגשות</mark>.</div>
+              <div class="ui-doc__text">קובץ מצורף: <mark class="ui-doc__mark" data-kind="סימונים" data-msg="4 סימונים על קטע מתוכנית S-204. הקובץ המקורי לא השתנה." data-where="site.png · נוסף ב-03.11, 23:24">קטע מתוכנית <bdi dir="ltr">S‑204</bdi> עם מיקום ההתנגשות</mark>.</div>
               <div class="ui-doc__text">נשלח ליועץ ב-03.11.2026, 23:24. מועד יעד: <mark class="ui-doc__mark" data-kind="מועד יעד" data-msg="3 ימי עבודה מרגע השליחה, בלי שישי ושבת." data-where="הגדרות זמני מענה">08.11.2026, 16:00</mark>.</div>
               <div class="ui-doc__text">היסטוריה: הבקשה נוצרה, צורף קובץ, עודכנו סימונים, נשלחה ליועץ, נוספה הערה.</div>
               <div class="ui-doc__text">תשובת היועץ: קיבלנו. אנחנו בודקים את חתך הקורה מול תוכנית המיזוג ונחזור עם פרט.</div>
