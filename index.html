@@ -78,6 +78,16 @@
   .hero__window .ui-title, .hero__window .ui-chat__day, .hero__window .ui-chat__online,
   .hero__window .ui-chat__src, .hero__window .ui-chat__ph { font-size: 14px; }
   .hero__window .ui-chat__input { background: #f2f5f9; }
+  /* people, not a bot: each message names its writer, the consultant office has its initials, the request a file mark */
+  .hero__window .ui-msg--me { max-width: 76%; }
+  @media (max-width: 639px) {
+    .hero__window .ui-msg--me { max-width: 100%; }
+    .hero__window .ui-msg__text, .hero__window .ui-chat__answer { font-size: 14px; line-height: 20px; }
+    .hero__window .ui-chat__srcs { display: none; }
+  }
+  .hero__window .msg-who { display: block; margin-bottom: 4px; font-size: 13px; font-weight: 500; color: #4e5966; }
+  .hero__window .req-ico { display: inline-grid; place-items: center; width: 24px; height: 24px; border-radius: 6px; background: #e9effb; color: var(--accent); flex: none; }
+  .hero__window .req-ico .ui-icon { width: 14px; height: 14px; }
   /* the timeline's captions sit on the panel's landscape, so each gets a white plate */
   #features .dg-cap { background: rgb(255 255 255 / .94); padding: 3px 8px; border-radius: 6px; }
   #features .dg-cap__s { font-size: 13px; color: #4e5966; }
@@ -213,17 +223,15 @@
         <p class="hero__note">הדמו נפתח בלשונית חדשה. בכניסה הראשונה הוא נטען כחצי דקה.</p>
       </div>
       <div class="hero__window" data-fx="grain-gradient" data-fx-seed="7" role="img" aria-label="בקשה פתוחה במערכת: מנהל העבודה שואל על תעלת מיזוג שמתנגשת בקורה, ויועץ הקונסטרוקציה עונה בתוך הבקשה">
-        <div class="ly-piece" aria-hidden="true" data-ui-pause-host>
-          <div class="ui ui-panel ui-chat" data-ui="chat" data-ui-loop>
-            <div class="ui-head"><span class="ui-agent" aria-hidden="true"></span><div class="ui-title">PRK-0001 · תעלת מיזוג מתנגשת בקורה B12</div><span class="ui-chat__online">ממתין לתשובה</span><span class="ui-spacer"></span></div>
+        <div class="ly-piece" aria-hidden="true">
+          <div class="ui ui-panel ui-chat">
+            <div class="ui-head"><span class="req-ico" aria-hidden="true"><svg class="ui-icon" viewBox="0 0 16 16"><path d="M4 2.5h5l3 3v8H4z"/><path d="M9 2.5v3h3"/></svg></span><div class="ui-title">PRK-0001 · תעלת מיזוג מתנגשת בקורה B12</div><span class="ui-chat__online">ממתין לתשובה</span><span class="ui-spacer"></span></div>
             <div class="ui-chat__body">
-              <div class="ui-chat__day">מגדלי הפארק, בניין A · קומה 4</div>
-              <div class="ui-msg ui-msg--me" data-chat-q><span class="ui-msg__text">תעלת המיזוג 60/40 עוברת בגובה שמתנגש בתחתית קורה B12 (גיליון <bdi dir="ltr">S‑204</bdi>). אפשר לבצע מעבר בקורה, או שצריך להנמיך את התעלה?</span></div>
+              <div class="ui-msg ui-msg--me" data-chat-q><span class="ui-msg__text"><span class="msg-who">מנהל העבודה · 03.11, 23:24</span>תעלת המיזוג 60/40 מתנגשת בתחתית קורה B12 (גיליון <bdi dir="ltr">S‑204</bdi>). אפשר לבצע מעבר בקורה, או להנמיך את התעלה?</span></div>
               <div class="ui-msg ui-msg--bot" data-chat-a>
-                <span class="ui-agent ui-msg__av" aria-hidden="true"></span>
+                <span class="ui-avatar ui-msg__av" data-tone="1" aria-hidden="true">קו</span>
                 <span class="ui-msg__col">
-                  <span class="ui-chat__typing" aria-hidden="true"><i></i><i></i><i></i></span>
-                  <span class="ui-chat__answer">קיבלנו. אנחנו בודקים את חתך הקורה מול תוכנית המיזוג <b>ונחזור עם פרט</b>.</span>
+                  <span class="msg-who">מבנים, משרד הנדסת קונסטרוקציה · הערה</span><span class="ui-chat__answer">קיבלנו. אנחנו בודקים את חתך הקורה מול תוכנית המיזוג <b>ונחזור עם פרט</b>.</span>
                   <span class="ui-chat__srcs"><span class="ui-chat__src"><svg class="ui-icon" viewBox="0 0 16 16"><path d="M4 2.5h5l3 3v8H4z"/><path d="M9 2.5v3h3"/></svg>site.png · 4 סימונים</span><span class="ui-chat__src"><svg class="ui-icon" viewBox="0 0 16 16"><circle cx="8" cy="8" r="5.5"/><path d="M8 5v3l2 1.5"/></svg>מועד יעד 08.11, 16:00</span></span>
                 </span>
               </div>
